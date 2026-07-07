@@ -1,0 +1,73 @@
+body{
+
+    margin:0;
+
+    background:#f4f7fb;
+
+    font-family:Segoe UI,Arial;
+
+}
+
+.wrapper{
+
+    display:flex;
+
+}
+
+.sidebar{
+
+    width:240px;
+
+    min-height:100vh;
+
+    background:#1f2937;
+
+}
+
+.sidebar a{
+
+    display:block;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:14px 20px;
+
+    transition:.3s;
+
+}
+
+.sidebar a:hover{
+
+    background:#2563eb;
+
+}
+
+.content{
+
+    flex:1;
+
+    padding:30px;
+
+}
+
+.card{
+
+    border:none;
+
+    border-radius:12px;
+
+}
+
+footer{
+
+    background:#1f2937;
+
+    color:white;
+
+    text-align:center;
+
+    padding:15px;
+
+}

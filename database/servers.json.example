@@ -1,0 +1,8 @@
+[
+    {
+        "name": "Example Windows Server",
+        "ip": "10.0.0.1",
+        "username": "admin",
+        "password": "your-password-here"
+    }
+]

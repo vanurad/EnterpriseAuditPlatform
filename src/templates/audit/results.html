@@ -1,0 +1,325 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Audit Results{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row mb-4">
+        <div class="col">
+            <h3>Enterprise Windows Security Audit Report</h3>
+            <p class="text-muted">
+                Target :
+                <strong>{{ system.Hostname }}</strong>
+                |
+                {{ system.WindowsProductName }}
+            </p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6>Compliance Score</h6>
+                    <h2 class="{% if score >= 90 %}text-success{% else %}text-danger{% endif %}">
+                        {{ score }} %
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6>Passed</h6>
+                    <h2 class="text-success">{{ passed }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6>Failed</h6>
+                    <h2 class="text-danger">{{ failed }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6>Total Checks</h6>
+                    <h2>{{ total }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">System Information</div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr><th>Hostname</th><td>{{ system.Hostname }}</td></tr>
+                <tr><th>Operating System</th><td>{{ system.WindowsProductName }}</td></tr>
+                <tr><th>Version</th><td>{{ system.WindowsVersion }}</td></tr>
+                <tr><th>Architecture</th><td>{{ system.OsArchitecture }}</td></tr>
+                <tr><th>Manufacturer</th><td>{{ system.Manufacturer }}</td></tr>
+                <tr><th>Model</th><td>{{ system.Model }}</td></tr>
+                <tr><th>Total Memory</th><td>{{ system.TotalMemoryGB }} GB</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">Windows Services Compliance</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Service</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th>Startup</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for svc in services %}
+                <tr class="{% if svc.Status=='PASS' %}table-success{% else %}table-danger{% endif %}">
+                    <td>{{ svc.DisplayName }}</td>
+                    <td>{{ svc.Expected }}</td>
+                    <td>{{ svc.Actual }}</td>
+                    <td>{{ svc.StartMode }}</td>
+                    <td>
+                        {% if svc.Status=="PASS" %}
+                        <span class="badge bg-success">PASS</span>
+                        {% else %}
+                        <span class="badge bg-danger">FAIL</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">Password Policy Compliance</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Policy</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in password_policy %}
+                <tr class="{% if item.Status=='PASS' %}table-success{% else %}table-danger{% endif %}">
+                    <td>{{ item.Policy }}</td>
+                    <td>{{ item.Expected }}</td>
+                    <td>{{ item.Actual }}</td>
+                    <td>
+                        {% if item.Status=="PASS" %}
+                        <span class="badge bg-success">PASS</span>
+                        {% else %}
+                        <span class="badge bg-danger">FAIL</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">Account Lockout Policy</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Policy</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in account_lockout_policy %}
+                <tr class="{% if item.Status=='PASS' %}table-success{% else %}table-danger{% endif %}">
+                    <td>{{ item.Policy }}</td>
+                    <td>{{ item.Expected }}</td>
+                    <td>{{ item.Actual }}</td>
+                    <td>
+                        {% if item.Status=="PASS" %}
+                        <span class="badge bg-success">PASS</span>
+                        {% else %}
+                        <span class="badge bg-danger">FAIL</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">Audit Policy Compliance</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in audit_policy %}
+                <tr class="{% if item.Status=='PASS' %}table-success{% else %}table-danger{% endif %}">
+                    <td>{{ item.Category }}</td>
+                    <td>{{ item.Subcategory }}</td>
+                    <td>{{ item.Expected }}</td>
+                    <td>{{ item.Actual }}</td>
+                    <td>
+                        {% if item.Status=="PASS" %}
+                        <span class="badge bg-success">PASS</span>
+                        {% else %}
+                        <span class="badge bg-danger">FAIL</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">NTP Compliance</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Check</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in ntp_policy %}
+                <tr class="{% if item.Status=='PASS' %}table-success{% else %}table-danger{% endif %}">
+                    <td>{{ item.Check }}</td>
+                    <td>{{ item.Expected }}</td>
+                    <td>{{ item.Actual }}</td>
+                    <td>
+                        {% if item.Status=="PASS" %}
+                        <span class="badge bg-success">PASS</span>
+                        {% else %}
+                        <span class="badge bg-danger">FAIL</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">Local Users</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Username</th>
+                    <th>Account Type</th>
+                    <th>Status</th>
+                    <th>Groups</th>
+                    <th>Access Level</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in local_users %}
+                <tr>
+                    <td>{{ user.Username }}</td>
+                    <td>{{ user.AccountType }}</td>
+                    <td>{{ user.Status }}</td>
+                    <td>{{ user.Groups }}</td>
+                    <td>{{ user.AccessLevel }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">Local Groups</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Group</th>
+                    <th>Members</th>
+                    <th>Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for group in local_groups %}
+                <tr>
+                    <td>{{ group.Group }}</td>
+                    <td>{{ group.Members }}</td>
+                    <td>{{ group.Count }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">Installed Security Updates</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>KB Number</th>
+                    <th>Description</th>
+                    <th>Installed On</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for update in security_updates %}
+                <tr>
+                    <td>{{ update.KB }}</td>
+                    <td>{{ update.Description }}</td>
+                    <td>{{ update.InstalledOn }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <a href="/audit/download/html" class="btn btn-success">Download HTML Report</a>
+        <a href="/audit" class="btn btn-secondary">Run Another Audit</a>
+    </div>
+
+</div>
+
+{% endblock %}

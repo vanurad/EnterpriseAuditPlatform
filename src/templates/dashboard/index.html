@@ -1,0 +1,44 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-primary text-white">
+
+                <h4 class="mb-0">
+                    <i class="bi bi-shield-check"></i>
+                    Enterprise Audit Dashboard
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <h3>Welcome Administrator</h3>
+
+                <p>
+                    The Enterprise Audit Platform is running successfully.
+                </p>
+
+                <hr>
+
+                <a href="/audit" class="btn btn-primary">
+                    Start New Audit
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

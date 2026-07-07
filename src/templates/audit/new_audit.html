@@ -1,0 +1,151 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}New Audit{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+                        <i class="bi bi-shield-check"></i>
+                        New Windows PCI DSS Audit
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form id="auditForm">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Target Server IP
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="ip"
+                                placeholder="10.5.2.100"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                value="Administrator">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Authentication
+                            </label>
+
+                            <select class="form-select" id="auth">
+
+                                <option value="ntlm">
+                                    NTLM
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Compliance Baseline
+                            </label>
+
+                            <select class="form-select">
+
+                                <option>
+                                    PCI DSS v4.0
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            id="startAudit"
+                            class="btn btn-success btn-lg">
+
+                            <i class="bi bi-play-circle"></i>
+
+                            Start Audit
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    Audit Progress
+
+                </div>
+
+                <div class="card-body">
+
+                    <div id="progressArea">
+
+                        Waiting to start...
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/audit.js') }}"></script>
+
+{% endblock %}
