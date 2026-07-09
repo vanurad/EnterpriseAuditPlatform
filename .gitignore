@@ -1,0 +1,43 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Environment and secrets
+.env
+.env.*
+database/servers.json
+database/secret.key
+
+# Runtime / generated data (root-level only)
+/logs/
+/uploads/
+/evidence/
+/reports/
+/baselines/
+src/logs/
+src/uploads/
+src/backups/
+
+# Duplicate nested copy
+EnterpriseAuditPlatform/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
